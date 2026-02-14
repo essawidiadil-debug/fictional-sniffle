@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قصتنا يا بنوتتي ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<!-- Font Awesome للأيقونات -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;}
+
+body{
+background:linear-gradient(-45deg,#ff8fab,#ffc2d1,#ffb3c6,#ffd6e0);
+background-size:400% 400%;
+animation:bg 20s ease infinite;
+overflow:hidden;
+color:white;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* قلوب متحركة */
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 10s linear infinite;
+opacity:0.5;
+z-index:0;
+}
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
+
+.page{
+position:absolute;
+width:100%;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(10px);
+opacity:0;
+transition:1.5s;
+padding:20px;
+text-align:center;
+overflow-y:auto;
+z-index:2;
+}
+
+.active{opacity:1;z-index:3;}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff4d88;
+color:white;
+margin:10px;
+cursor:pointer;
+transition:0.3s;
+font-size:1.2rem;
+}
+button:hover{transform:scale(1.1);background:#d63384;}
+
+input{
+padding:12px;
+border-radius:30px;
+border:none;
+text-align:center;
+width:80%;
+max-width:300px;
+margin:10px;
+}
+
+.slider{
+display:flex;
+overflow:hidden;
+width:90%;
+max-width:800px;
+border-radius:20px;
+margin:20px 0;
+}
+
+.slide{
+min-width:100%;
+height:350px;
+background-size:cover;
+background-position:center;
+transition:0.8s;
+}
+
+.countdowns{
+display:grid;
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:15px;
+border-radius:15px;
+margin:5px;
+}
+
+.big-message{
+font-size:1.8rem;
+margin-top:20px;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px pink;}
+to{text-shadow:0 0 30px red;}
+}
+
+.music-btn{
+position:fixed;
+top:15px;
+left:15px;
+background:white;
+border-radius:50%;
+width:45px;
+height:45px;
+border:none;
+cursor:pointer;
+z-index:10;
+font-size:1.2rem;
+}
+
+.love-message{font-size:1.4rem;line-height:2rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;width:90%;margin:15px auto;}
+.color-circle{width:50px;height:50px;border-radius:50%;margin:5px auto;}
+.poem-line{margin:10px 0;border-bottom:1px dashed rgba(255,255,255,0.3);padding-bottom:5px;}
+
+h1,h2{text-shadow:2px 2px 5px black;}
+</style>
+</head>
+<body>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<!-- موسيقى خلفية هادئة -->
+<audio id="music" loop>
+<source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/Creative_Commons/Wes_Willenbring/Wes_Willenbring_-_Sunny_Day/Wes_Willenbring_-_Sunny_Day.mp3" type="audio/mpeg">
+</audio>
+
+<!-- الصفحة 1: الدخول -->
+<div class="page active" id="page1">
+<h1>🔐 إلى بنوتتي… حبيبة بابا ❤️</h1>
+<input type="password" id="pass" placeholder="2008">
+<button onclick="unlock()">دخول</button>
+</div>
+
+<!-- الصفحة 2: الرسالة الليبية -->
+<div class="page" id="page2">
+<h1>💖 ينور حياتي وحبيبة بابا 💖</h1>
+<div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:30px; max-width:600px;">
+<p>يا أجمل حاجة صارت في حياتي</p>
+<p>من أول ما عرفتك و أنا ❤️</p>
+<p>عشقتك من كل قلبي 😊</p>
+<p>كل لحظة نعيشها مع بعض تبقى ذكرى</p>
+<p>غالية في قلبي و ما ننساهاش</p>
+<p>عارف إنو الكلام مهما كان</p>
+<p>ما يقدر يوصف قد ايش أحبك</p>
+<p>تعال نكمل مع بعض</p>
+<p>ونعيش كل لحظة مع بعض 😢</p>
+<p>كل عام و انتي حبيبتي ❤️</p>
+</div>
+<button onclick="nextPage(3)">👉 تابعي يا بنوتتي 👈</button>
+</div>
+
+<!-- الصفحة 3: العداد + الأغاني + صور (10 صور) -->
+<div class="page" id="page3">
+<h2>⏳ من يوم ما عرفناك 😍</h2>
+
+<!-- شريط الصور 1 -->
+<div class="slider" id="slider1">
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2874038/pexels-photo-2874038.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/1448681/pexels-photo-1448681.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2866485/pexels-photo-2866485.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/1024967/pexels-photo-1024967.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2641887/pexels-photo-2641887.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/3771113/pexels-photo-3771113.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/3692885/pexels-photo-3692885.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2779330/pexels-photo-2779330.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+</div>
+
+<!-- العدادات الثابتة -->
+<div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:15px 0;">
+<div class="card"><div style="font-size:2.5rem;">584</div><div>يوم</div></div>
+<div class="card"><div style="font-size:2.5rem;">11</div><div>ساعة</div></div>
+<div class="card"><div style="font-size:2.5rem;">6</div><div>دقيقة</div></div>
+<div class="card"><div style="font-size:2.5rem;">22</div><div>ثانية</div></div>
+</div>
+<h3 style="margin:5px 0;">🔔 منذ 10/7/2024 مع بعض ❤️</h3>
+
+<!-- أغانينا المفضلة -->
+<h2>🎵 أغانينا المفضلة</h2>
+<div class="grid">
+<div class="card"><i class="fas fa-music"></i> Ma Jolie<br><small>الفردة</small></div>
+<div class="card"><i class="fas fa-music"></i> غالي<br><small>Duke x Kawtar</small></div>
+<div class="card"><i class="fas fa-music"></i> مهبول أنا<br><small>--</small></div>
+<div class="card"><i class="fas fa-music"></i> san siro<br><small>--</small></div>
+<div class="card"><i class="fas fa-music"></i> Baby Lova<br><small>--</small></div>
+</div>
+
+<button onclick="nextPage(4)">📸 صور أكثر</button>
+</div>
+
+<!-- الصفحة 4: المزيد من الصور (10 صور أخرى) -->
+<div class="page" id="page4">
+<h2>📸 لحظاتنا المصورة</h2>
+<div class="slider" id="slider2">
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2874034/pexels-photo-2874034.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/208662/pexels-photo-208662.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2874039/pexels-photo-2874039.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/3771109/pexels-photo-3771109.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/1024972/pexels-photo-1024972.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2253872/pexels-photo-2253872.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2866483/pexels-photo-2866483.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2641886/pexels-photo-2641886.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/3692886/pexels-photo-3692886.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+<div class="slide" style="background-image:url('https://images.pexels.com/photos/2779331/pexels-photo-2779331.jpeg?auto=compress&cs=tinysrgb&w=800');"></div>
+</div>
+<button onclick="nextPage(5)">🎨 ألواننا المفضلة</button>
+</div>
+
+<!-- الصفحة 5: الألوان المفضلة -->
+<div class="page" id="page5">
+<h2>🎨 ألواننا المفضلة 😍</h2>
+<div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+<div><div class="color-circle" style="background:#8B4513;"></div>بني<br>مثل الشوكولاتة</div>
+<div><div class="color-circle" style="background:#2E8B57;"></div>أخضر<br>مثل الطبيعة</div>
+<div><div class="color-circle" style="background:#1E90FF;"></div>أزرق<br>مثل السماء</div>
+</div>
+<button onclick="nextPage(6)">💌 القصيدة</button>
+</div>
+
+<!-- الصفحة 6: القصيدة -->
+<div class="page" id="page6">
+<h1>💞 وإن سألوني 💞</h1>
+<div style="background:rgba(255,255,255,0.1); padding:20px; border-radius:30px; max-width:600px;">
+<div class="poem-line">وإن سألوني عن جمال الدنيا</div>
+<div class="poem-line">سأكتفي بدكر إسمك</div>
+<div class="poem-line">فأنتي أجملهم في قلبي ❤️</div>
+<div class="poem-line">وإن سألوني عن مداق الفرح</div>
+<div class="poem-line">سأخبرهم عن لقاء عينيك 💫</div>
+<div class="poem-line">وإن سألوني عن سبب إبتسامتي</div>
+<div class="poem-line">سأخبرهم عن لذة وجودك</div>
+<div class="poem-line">ونقاء ملامحك وجمال كلامك 🌹</div>
+<div style="font-size:2.5rem; margin-top:20px;">❤️ 🥀 💋 🌹 💐</div>
+</div>
+<button onclick="goToStart()">🏠 العودة للبداية</button>
+</div>
+
+<script>
+// قلوب متحركة في الخلفية
+for(let i=0;i<25;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(15+Math.random()*20)+"px";
+heart.innerHTML="❤️";
+heart.style.animationDuration=(6+Math.random()*6)+"s";
+document.body.appendChild(heart);
+}
+
+// دالة الانتقال بين الصفحات
+function nextPage(n){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById("page"+n).classList.add('active');
+}
+
+function goToStart(){
+nextPage(1);
+document.getElementById('pass').value='';
+}
+
+// فتح القفل
+function unlock(){
+if(document.getElementById("pass").value.trim()==="2008"){
+nextPage(2);
+confetti({particleCount:300,spread:150});
+// محاولة تشغيل الموسيقى
+let music=document.getElementById("music");
+music.play().catch(()=>{});
+}else{
+alert("كلمة السر خاطئة 😢");
+}
+}
+
+// تشغيل/إيقاف الموسيقى
+function toggleMusic(){
+let music=document.getElementById("music");
+if(music.paused){
+music.play();
+}else{
+music.pause();
+}
+}
+
+// تحريك السلايدر الأول تلقائياً
+let index1=0;
+setInterval(()=>{
+let slider=document.getElementById("slider1");
+if(slider && document.getElementById('page3').classList.contains('active')){
+index1=(index1+1)%10;
+slider.style.transform=`translateX(-${index1*100}%)`;
+}
+},4000);
+
+// تحريك السلايدر الثاني تلقائياً
+let index2=0;
+setInterval(()=>{
+let slider=document.getElementById("slider2");
+if(slider && document.getElementById('page4').classList.contains('active')){
+index2=(index2+1)%10;
+slider.style.transform=`translateX(-${index2*100}%)`;
+}
+},4000);
+
+// محاولة تشغيل الموسيقى عند أي تفاعل مع الصفحة (لأن المتصفحات تمنع التشغيل التلقائي)
+document.addEventListener('click', function playMusicOnce() {
+let music=document.getElementById("music");
+if(music.paused){
+music.play().catch(()=>{});
+}
+document.removeEventListener('click', playMusicOnce);
+}, { once: true });
+</script>
+</body>
+</html>
